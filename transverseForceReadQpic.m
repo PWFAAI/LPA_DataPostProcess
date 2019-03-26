@@ -1,6 +1,6 @@
 function [e,b] = transverseForceReadQpic(path,file,tstep,plane)
 
-% read the transverse field, ex and by, in XZ plane
+% read the transverse field, e and b, in both XZ and YZ planes
     if plane=='X'
         path_e = [path,file,'FEX-XZ\FEX-XZ_',num2str(tstep,'%04d'),'.h5'];
         name_e = ['/FEX-XZ-',num2str(tstep,'%04d')];
