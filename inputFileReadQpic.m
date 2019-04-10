@@ -1,6 +1,7 @@
-function [box_x, box_z, ind_x, ind_z, cen_beam, np] = inputFileReadQpic(path,file)
+function [box_x, box_z, ind_x, ind_z, cen_beam, np, t, dt, dpha] = inputFileReadQpic(path,file)
 % read the old version QuickPIC input file, and get what we want
-%     path = '..\Quickpic\positron acceleration\';
+%     clearvars;
+%     path = '..\';
 %     file = '111_TransverseForceUnloaded\';
 
     path_input = [path,file,'rpinput'];
@@ -38,7 +39,21 @@ function [box_x, box_z, ind_x, ind_z, cen_beam, np] = inputFileReadQpic(path,fil
             arr = strsplit(tline,{'=',','});
             np = str2double(cell2mat(arr(2)));
         end
+        index =strfind(tline,'&Simulation_time');
+        if index
+            tline = fgetl(fileID);
+            arr = strsplit(tline,{'=',','});
+            dt = str2double(cell2mat(arr(4)));
+            t = str2double(cell2mat(arr(2)));
+        end
+        index =strfind(tline,'DFPHA_BEAM=');
+        if index
+            arr = strsplit(tline,{'=',','});
+            dpha = str2double(cell2mat(arr(4)));
+        end
+        
         tline = fgetl(fileID);
+        
     end
     fclose(fileID);
 end
